@@ -4,7 +4,7 @@ import sys
 cascade_path = "haarcascade_frontalface_default.xml"
 
 # Use Haar Cascade for face detection provided by Intel
-# http://docs.opencv.org/trunk/d7/d8b/tutorial_py_face_detection.html
+# http://docs.opencv.org/2.4/modules/objdetect/doc/cascade_classification.html
 
 face_cascade = cv2.CascadeClassifier(cascade_path)
 
@@ -27,6 +27,7 @@ while True:
 
     # Draw a rectangle around the faces
     for (x, y, w, h) in detected_faces:
+        # Do something with face
         cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
     # Display captured frame with detected faces
