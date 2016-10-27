@@ -14,7 +14,8 @@ video_capture = cv2.VideoCapture(0)
 
 def save_frame(frame):
     global image_count
-    cv2.imwrite("image"+image_count".jpg", frame)
+    cv2.imwrite("image"+str(image_count)+".jpg", frame)
+    image_count+=1
     print("Image saved")
 
 while True:
@@ -31,18 +32,18 @@ while True:
         minSize=(50, 50),
         flags=cv2.cv.CV_HAAR_SCALE_IMAGE
     )
-
     # Draw a rectangle around the faces
     for (x, y, w, h) in detected_faces:
-        # Do something with face
+        # Do something with faces
+        if cv2.waitKey(2) & 0xFF == ord('s'):
+            #qcrop_im = frame[y:h, x:w]
+            save_frame(frame)
         cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
         
     # Display captured frame with detected faces
     cv2.imshow('Agentes inteligentes', frame)
 
     # Wait for quit command
-    if cv2.waitKey(2) & 0xFF == ord('s'):
-        save_frame(frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
