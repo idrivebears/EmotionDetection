@@ -1,17 +1,7 @@
 from keras.models import Sequential
-
-from keras.layers import Dense
-from load_data import load_images
 from keras.layers import Dense, Convolution2D, MaxPooling2D, Activation
-
+from load_data import load_images
 import numpy
-
-seed = 13
-numpy.random.seed(seed)
-
-# Load dataset
-data = load_images('training_images/')
-
 
 # Create model
 def VVG_S(weight_path=None):
@@ -42,15 +32,24 @@ def VVG_S(weight_path=None):
 
     return model
 
+seed = 13
+numpy.random.seed(seed)
+
+# Load training dataset
+X_train, Y_train = load_images('datasets/training_images/')
+
+# Load validation dataset
+X_valid, Y_valid = load_images('datasets/validation_images/')
 
 model = VGG_S('vggs_weights.h5')
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 # Play with epoch value
-model.fit(X[train],Y[train], nb_epoch=100, batch_size=10)
+hist = model.fit(X_train,Y_train, nb_epoch=100, batch_size=10)
+print(hist.history)
 
-scores = model.evaluate(X[validate], Y[validate])
-print("%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
+# scores = model.evaluate(X[validate], Y[validate])
+# print("%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
               
 # At the end, use test dataset
 # scores = model.evaluate(X[test], Y[test])      
