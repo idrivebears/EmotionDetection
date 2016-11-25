@@ -10,6 +10,9 @@ dataset = numpy.loadtxt("pima-indians-diabetes.csv", delimiter=",")
 X = dataset[:,0:8]
 Y = dataset[:,8]
 
+print X.shape
+print Y.shape
+
 # Create model
 model = Sequential()
 model.add(Dense(12, input_dim=8, init='uniform', activation='relu'))
