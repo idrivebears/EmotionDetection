@@ -1,12 +1,13 @@
 from keras.models import Sequential
 from keras.layers import Dense
+from load_data import load_images
 import numpy
 
 seed = 13
 numpy.random.seed(seed)
 
 # Load dataset
-
+data = load_images('training_images/')
 
 # Create model
 model = Sequential()

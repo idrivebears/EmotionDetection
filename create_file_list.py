@@ -1,6 +1,6 @@
 import os, glob
 
-categoriesEitW = [ 'Angry' , 'Disgust' , 'Fear' , 'Happy'  , 'Neutral' ,  'Sad' , 'Surprise']
+categoriesEitW = ['Angry' , 'Disgust' , 'Fear' , 'Happy'  , 'Neutral' ,  'Sad' , 'Surprise']
 
 jaffe_categories_map = {
     'HA': categoriesEitW.index('Happy'),
