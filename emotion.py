@@ -3,7 +3,8 @@ from keras.layers import Dense, Convolution2D, MaxPooling2D, Activation, Flatten
 from load_data import load_images
 from keras import backend as K
 K.set_image_dim_ordering('th')
-import numpy
+from keras.utils import np_utils
+import numpy as np
 
 # Create model
 def VGG_S():
@@ -32,16 +33,18 @@ def VGG_S():
     return model
 
 seed = 13
-numpy.random.seed(seed)
+np.random.seed(seed)
 
 # Load training dataset
 print("Attempt to load training dataset")
 X_train, Y_train = load_images('datasets/training_images/')
+
 print("Training dataset succefully loaded")
 
 # Load validation dataset
 print("Attempt to load validation dataset")
 X_valid, Y_valid = load_images('datasets/validation_images/')
+
 print("Validation dataset succefully loaded")
 
 print("Creating model")

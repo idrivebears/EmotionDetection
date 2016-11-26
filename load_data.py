@@ -31,6 +31,7 @@ def load_images(dir):
     print os.listdir(dir)
     
     x = raw_input("Key to continue")
+    count = len(os.listdir(dir))
 
     for im in os.listdir(dir):
 
@@ -42,4 +43,20 @@ def load_images(dir):
         image_inputs.append(em_image)
         image_outputs.append(label)
 
-    return (image_inputs, image_outputs)
+    temp_arr = np.zeros((count, 1, 256, 256))
+    
+    for i in range(0,  count):
+        temp_arr[i] = X_train[i]
+
+    return (temp_arr, np.asarray(image_outputs))
+
+
+
+
+
+
+
+
+
+
+
