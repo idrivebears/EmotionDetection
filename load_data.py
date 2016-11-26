@@ -38,17 +38,21 @@ def load_images(dir):
         if os.path.isdir(im):
             continue
         image_dir = dir + "/" + im
-        em_image = misc.imread(image_dir)
+        em_image = misc.imread(image_dir, mode='L')
         label = get_label(image_dir)
         image_inputs.append(em_image)
         image_outputs.append(label)
 
-    temp_arr = np.zeros((count, 1, 256, 256))
+    input_arr = np.zeros((count, 1, 256, 256))
+    output_arr = np.zeros(count)
+
+    for i in range(0, count):
+        output_arr[i] = image_outputs[i]
     
     for i in range(0,  count):
-        temp_arr[i] = X_train[i]
+        input_arr[i] = image_inputs[i]
 
-    return (temp_arr, np.asarray(image_outputs))
+    return (input_arr, output_arr)
 
 
 
