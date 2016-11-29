@@ -58,11 +58,12 @@ def analyze_image():
 	im_input = get_image(current_file)
 	pb["value"] = 10
 	print "Analyzing " + current_file + " ..."
-	pb["value"] = 20
+	pb["value"] = 60
 	res = model.predict(im_input)
 	pb["value"] = 60
 	print "Subject feeling ..."
 	pb["value"] = 80
+	print res[0]
 	emotion = categoriesEitW[res[0].tolist().index(res[0].max())]
 	pb["value"] = 90
 	print emotion
