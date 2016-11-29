@@ -23,6 +23,13 @@ def get_label(fname):
     label = fname.split('.')[1][0:2]
     return jaffe_categories_map[label]
 
+def get_image(dir):
+    if os.path.isdir(dir):
+        print "Please pick one image only."
+    em_image = misc.imread(image_dir, mode='L')
+    image_arr = np.zeros((count, 1, 256, 256))
+    return image_arr
+
 def load_images(dir):
 
     image_inputs = []

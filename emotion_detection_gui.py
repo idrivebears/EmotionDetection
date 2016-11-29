@@ -6,6 +6,17 @@ import ttk
 from tkFileDialog import askopenfilename
 from functools import partial
 from PIL import ImageTk, Image
+from load_data import get_image
+
+from keras.models import Sequential, load_model
+from keras.layers import Dense, Convolution2D, MaxPooling2D, Activation, Flatten, Dropout
+from load_data import load_images
+from keras import backend as K
+K.set_image_dim_ordering('th')
+from keras.utils import np_utils
+import numpy as np
+from scipy import ndimage
+from scipy import misc
 
 
 current_file = ""
@@ -13,6 +24,9 @@ img = None
 im_label = None
 default_pic = "default.png"
 pb = None
+
+print("Creating model")
+model = load_model('models/vgg_emotion_weights_006.h5')
 
 def load_image():
 	global current_file
@@ -27,12 +41,10 @@ def load_image():
 
 
 def analyze_image():
-	global pb
-	# Keras code goes here
-	for i in range(0,100):
-		pb["value"] = i
-	#pb["value"] = 0
-	print "analyzing:"
+	im_input = get_image(current_file)
+	print "Analyzing " + current_file + " ..."
+	res = model.predict(im_input)
+	print res
 
 root = Tk()
 root.resizable(width=True, height=True)
