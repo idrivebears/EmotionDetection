@@ -26,12 +26,7 @@ img = None
 im_label = None
 label_res = None
 default_pic = "default.png"
-pb_1 = None
-pb_2 = None
-pb_3 = None
-pb_l1 = None
-pb_l2 = None
-pb_l3 = None
+pb = None
 
 categoriesEitW = ['Angry','Disgust','Fear','Happy','Neutral','Sad','Surprise']
 emotion_colors = ['red','green','purple','yellow','gray','blue','orange']
@@ -45,6 +40,8 @@ def load_image():
 	global current_file
 	global img
 	global im_label
+	global pb
+	pb["value"] = 0
 	filename = askopenfilename() 
 	img = ImageTk.PhotoImage(Image.open(filename))
 	im_label.configure(image=img)
@@ -56,29 +53,22 @@ def load_image():
 def analyze_image():
 	global current_file
 	global label_res
-	global pb_1, pb_2, pb_3
-	global pb_l1, pb_l2, pb_l3
+	global pb
+	pb["value"] = 0
 	im_input = get_image(current_file)
+	pb["value"] = 10
 	print "Analyzing " + current_file + " ..."
+	pb["value"] = 60
 	res = model.predict(im_input)
+	pb["value"] = 60
 	print "Subject feeling ..."
-	res_list = res[0].tolist()
-	emotion = categoriesEitW[res_list.index(max(res_list))]
+	pb["value"] = 80
+	print res[0]
+	emotion = categoriesEitW[res[0].tolist().index(res[0].max())]
+	pb["value"] = 90
 	print emotion
 	label_res.configure(text=emotion, bg=emotion_colors[categoriesEitW.index(emotion)])
-	res_list_sorted = list(res_list)
-	res_list_sorted.sort(reverse=True)
-	print res_list_sorted
-	print res_list
-	pb_1["value"] = res_list_sorted[0] * 100
-	pb_2["value"] = res_list_sorted[1] * 100
-	pb_3["value"] = res_list_sorted[2] * 100
-
-	pb_l1.configure(text=categoriesEitW[res_list.index(res_list_sorted[0])])
-	pb_l2.configure(text=categoriesEitW[res_list.index(res_list_sorted[1])])
-	pb_l3.configure(text=categoriesEitW[res_list.index(res_list_sorted[2])])
-
-
+	pb["value"] = 100
 
 
 root = Tk()
@@ -99,34 +89,13 @@ analyze.grid(row=1, column=2)
 label_res = Label(root, text="Result: ", bg="white")
 label_res.grid(row=2, column = 0, columnspan=3)
 
+pb = ttk.Progressbar(root,orient ="horizontal",length = 200, mode ="determinate")
+pb.grid(row=4, column=0, columnspan=3)
+pb["maximum"] = 100
+pb["value"] = 0
+
 label_fname = Label(root, text=default_pic)
 label_fname.grid(row=3, column=0, columnspan=3)
-
-pb_1 = ttk.Progressbar(root,orient ="horizontal",length = 200, mode ="determinate")
-pb_1.grid(row=4, column=0, columnspan=1)
-pb_1["maximum"] = 100
-pb_1["value"] = 0
-
-pb_2 = ttk.Progressbar(root,orient ="horizontal",length = 200, mode ="determinate")
-pb_2.grid(row=4, column=1, columnspan=1)
-pb_2["maximum"] = 100
-pb_2["value"] = 0
-
-pb_3 = ttk.Progressbar(root,orient ="horizontal",length = 200, mode ="determinate")
-pb_3.grid(row=4, column=2, columnspan=1)
-pb_3["maximum"] = 100
-pb_3["value"] = 0
-
-pb_l1 = Label(root, text="Cat1")
-pb_l1.grid(row=5, column=0, columnspan=1)
-
-pb_l2 = Label(root, text="Cat1")
-pb_l2.grid(row=5, column=1, columnspan=1)
-
-pb_l3 = Label(root, text="Cat1")
-pb_l3.grid(row=5, column=2, columnspan=1)
-
-
 
 
 root.wm_title("Uberclock EmotionDetection")
