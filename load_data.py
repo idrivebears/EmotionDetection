@@ -26,8 +26,10 @@ def get_label(fname):
 def get_image(dir):
     if os.path.isdir(dir):
         print "Please pick one image only."
-    em_image = misc.imread(image_dir, mode='L')
-    image_arr = np.zeros((count, 1, 256, 256))
+    em_image = misc.imread(dir, mode='L')
+    image_arr = np.zeros((1, 1, 256, 256))
+
+    image_arr[0] = em_image
     return image_arr
 
 def load_images(dir):

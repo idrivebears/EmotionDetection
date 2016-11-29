@@ -19,19 +19,29 @@ from scipy import ndimage
 from scipy import misc
 
 
+trained_model = 'models/vgg_emotion_weights_006.h5'
+
 current_file = ""
 img = None
 im_label = None
+label_res = None
 default_pic = "default.png"
 pb = None
 
-print("Creating model")
-model = load_model('models/vgg_emotion_weights_006.h5')
+categoriesEitW = ['Angry','Disgust','Fear','Happy','Neutral','Sad','Surprise']
+emotion_colors = ['red','green','purple','yellow','gray','blue','orange']
+
+
+print("Loading model " + trained_model+ "... ")
+model = load_model(trained_model)
+print("Done.")
 
 def load_image():
 	global current_file
 	global img
 	global im_label
+	global pb
+	pb["value"] = 0
 	filename = askopenfilename() 
 	img = ImageTk.PhotoImage(Image.open(filename))
 	im_label.configure(image=img)
@@ -41,10 +51,24 @@ def load_image():
 
 
 def analyze_image():
+	global current_file
+	global label_res
+	global pb
+	pb["value"] = 0
 	im_input = get_image(current_file)
+	pb["value"] = 10
 	print "Analyzing " + current_file + " ..."
+	pb["value"] = 20
 	res = model.predict(im_input)
-	print res
+	pb["value"] = 60
+	print "Subject feeling ..."
+	pb["value"] = 80
+	emotion = categoriesEitW[res[0].tolist().index(res[0].max())]
+	pb["value"] = 90
+	print emotion
+	label_res.configure(text=emotion, bg=emotion_colors[categoriesEitW.index(emotion)])
+	pb["value"] = 100
+
 
 root = Tk()
 root.resizable(width=True, height=True)
