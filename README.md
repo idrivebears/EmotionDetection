@@ -7,3 +7,5 @@ Install:
 
 * Scipy
 * Keras ( ``` sudo pip install keras ```)
+
+![alt text](http://imgur.com/a/haC3H.jpg)
